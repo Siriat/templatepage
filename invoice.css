@@ -57,7 +57,7 @@ footer {
   padding: 1px;
   margin-top: 1em;
   margin-bottom: 1em;
-  background: #ff8000;
+  background: #454545;
   -webkit-print-color-adjust: exact !important;
   color-adjust: exact !important;
 }
@@ -75,7 +75,7 @@ footer {
 
 table.items {
   width: 100%;
-  border: 1px solid #ff8000;
+  border: 1px solid #454545;
   border-collapse: collapse;
 }
 
@@ -140,7 +140,7 @@ div.summary .part {
 div.summary .total {
   display: block;
   flex-grow: 1;
-  background: #000080;
+  background: #bcbcca;
   font-size: 140%;
 }
 
@@ -226,7 +226,7 @@ div.column-name {
 }
 
 .column-name {
-  background: blue;
+  background: rgb(228, 228, 233);
   color: white;
   margin: 2px;
   padding: 2px;

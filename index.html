@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Grist Invoice</title>
+    <title>Cotizacion Mathieson ELCO</title>
 
     <!-- A template for showing an invoice in a Custom Widget in Grist. -->
     <!-- Uses Vue.js, moment, and the Grist Plugin API -->
@@ -17,15 +17,28 @@
   </head>
   <body>
     <div id="app">
+      <section>
+        <img src="logo_mathiesonelco.png" alt="Logo Empresa" style="height: 50px;"> <!-- Ajusta el path y el estilo -->
+        <h1>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h1>
+        <h2>ME-3340, Adq. de elementos para la atención en los centros de procesos de la Region Marina Noreste</h2>
+    </section>
+    
+    <section>
+      <p>Cliente: {{ invoice.ClientName }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
+      Fecha: {{ invoice.Issued | asDate }}<br> <!-- Formatea la fecha como se requiera -->
+      MUY SEÑORES NUESTROS:<br>
+      ATENDIENDO A SU ATENTA SOLICITUD NOS ES GRATO COTIZAR A USTEDES EL EQUIPO REQUERIDO:</p>
+  </section>
+
       <div class="status" v-if="status">
         <template v-if="status === 'waiting'">
           <p>Waiting for data...</p>
           <ul>
-            <li v-bind:class="[tableConnected ? 'done' : '']">I need <b>read table</b> access.</li>
-            <li v-bind:class="[haveRows ? 'done' : '']">I need at least one row of data.</li>
+            <li v-bind:class="[tableConnected ? 'done' : '']">Se necesita <b> leer la tabla</b> access.</li>
+            <li v-bind:class="[haveRows ? 'done' : '']">Se necesita al menos un elemento de datos.</li>
             <li v-bind:class="[rowConnected ? 'done' : '']">I need <b>Select By</b> set.</li>
           </ul>
-          <p>Examples:</p>
+          <p>Ejemplos:</p>
           <ul>
             <li><a class="button" href="index.html?demo=1">A filled out invoice</a></li>
             <li><a class="button" href="index.html?labels=1">A labelled invoice</a></li>
@@ -35,15 +48,16 @@
           {{ status }}
         </template>
       </div>
+      <!--
       <template v-if="invoice">
         <div class="top">
           <div class="block">
             <div class="header">
-              <div class="meta title">Invoice</div>
+              <div class="meta title">Cotizacion</div>
             </div>
-            <div class="info"><span class="meta">Invoice Number</span> #{{ invoice.Number }}</div>
-            <div class="info" v-if="invoice.Issued"><div class="meta date-tag">Issued</div> {{ invoice.Issued | asDate }}</div>
-            <div class="info" v-if="invoice.Due"><div class="meta date-tag">Due</div> {{ invoice.Due | asDate }}</div>
+            <div class="info"><span class="meta">Numero de cotizacion</span> #{{ invoice.Number }}</div>
+            <div class="info" v-if="invoice.Issued"><div class="meta date-tag">Fecha </div> {{ invoice.Issued | asDate }}</div>
+          <!--  <div class="info" v-if="invoice.Due"><div class="meta date-tag">Due</div> {{ invoice.Due | asDate }}</div> ->
           </div>
           
           <div class="supplier">
@@ -98,33 +112,38 @@
             </template>
           </div>
         </div>
+      -->
 
-        <table class="items">
-          <template v-if="!Array.isArray(invoice.Items)">
-            <tr>
-              <th>Description</th>
-              <th class="money">Total</th>
-            </tr>
-            <tr>
-              <td>{{ invoice.Items }}</td>
-              <td class="money">{{ invoice.Total | currency }}</td>
+      <table class="items">
+        <thead>
+          <tr>
+            <th>#</th> <!-- Encabezado para el número consecutivo -->
+            <th class="number">Cantidad</th>
+            <th>Description</th>
+            <th class="money">Precio Unitario</th>
+            <th class="money">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-if="Array.isArray(invoice.Items)">
+            <tr v-for="(item, index) in invoice.Items" :key="index">
+              <td>{{ index + 1 }}</td> <!-- Muestra el número consecutivo, sumando 1 porque el índice comienza en 0 -->
+              <td class="number">{{ item.Quantity }}</td>
+              <td>{{ item.Description }}</td>
+              <td class="money">{{ item.Price | currency }}</td>
+              <td class="money">{{ item.Total | currency }}</td>
             </tr>
           </template>
           <template v-else>
             <tr>
-              <th>Description</th>
-              <th class="money">Unit Price</th>
-              <th class="number">Quantity</th>
-              <th class="money">Total</th>
-            </tr>
-            <tr v-for="item in invoice.Items">
-              <td>{{ item.Description }}</td>
-              <td class="money">{{ item.Price | currency }}</td>
-              <td class="number">{{ item.Quantity }}</td>
-              <td class="money">{{ item.Total | currency }}</td>
+              <td>1</td> <!-- Índice para un solo item, si no es un array -->
+              <td>{{ invoice.Items }}</td>
+              <td class="money">{{ invoice.Total | currency }}</td>
             </tr>
           </template>
-        </table>
+        </tbody>
+      </table>
+      
 
         <div class="summary">
           <div class="part">
@@ -179,11 +198,73 @@
           </div>
         </template>
 
+
+
+        <section class="terms-conditions">
+        <h2>Términos y Condiciones Especiales</h2>
+        <p>EL COMPRADOR ACEPTA Y RECONOCE LOS SIGUIENTES TÉRMINOS Y CONDICIONES ESPECIALES:</p>
+        <p> TIEMPO DE ENTREGA: DE 90 A 270 DÍAS (DEPENDIENDO DE EQUIPO SOLICITADO Y SUJETO A DISPONIBILIDAD DE FÁBRICA). DESPUÉS DE RECIBIDA SU ORDEN DE COMPRA Y EL ANTICIPO CORRESPONDIENTE. EL TRÁMITE DE IMPORTACIÓN SE PUEDE VER AFECTADO O AFECTAR LA ENTREGA EN CASO DE SER UN PRODUCTO QUE NO SE HAYA IMPORTADO CON ANTERIORIDAD Y APLIQUE ALGUNA NOM. </p>
+
+
+        <p>SE DEBERÁN TOMAR EN CUENTA LOS COSTOS ADICIONALES QUE PUEDAN REQUERIRSE, COMO SON:</p>
+        <ul>
+          <li>PUESTA EN MARCHA DEL SISTEMA</li>
+
+          <li>CURSOS DE CAPACITACIÓN</li>
+          <li>PAQUETES DE DOCUMENTACIÓN</li>
+
+          <li>PRUEBAS FAT</li>
+          <li>PARTES DE REFACCIONAMIENTO RECOMENDADAS PARA LA PUESTA EN MARCHA DEL SISTEMA (CRITICAL SPARE PARTS) Y PARA 2 AÑOS DE OPERACIÓN ETC. LOS COSTOS DE ESTOS CONCEPTOS VARÍAN SEGÚN LA CANTIDAD DE EQUIPOS INVOLUCRADOS EN CADA PROYECTO.</li>
+      </ul>
+
+
+        <p>PRECIOS: A LOS PRECIOS INDICADOS DEBERÁ AGREGARSE EL IVA. ENTREGA: (EXW) EXWORKS.</p>
+        <p>VIGENCIA: 30 DÍAS A PARTIR DE ESTA FECHA.</p>
+        <p>SUJETO A LA PREVIA APROBACIÓN DEL VENDEDOR, ÉSTE PODRÁ OTORGAR AL COMPRADOR UN CRÉDITO DE HASTA 45 (CUARENTA Y CINCO) DÍAS NATURALES SOBRE EL 50% DEL SALDO RESTANTE DEL TOTAL DE LA ORDEN DE COMPRA Y/O COTIZACIÓN RESPECTIVA, LOS CUALES EMPEZARÁN A CORRER A PARTIR DE LA QUE EL COMPRADOR RECIBA EN SITIO FINAL, EL ENVIO A SITIO FINAL DEBERA SER FORZOSAMENTE AL DIA HABIL SIGUIENTE DE QUE HAYA CONCLUIDO LA INSPECCION POR PARTE DEL COMPRADOR EN EL ALMACEN DEL VENDEDOR. LA FECHA DE INSPECCION SERA INFORMADA OPORTUNAMENTE POR EL VENDEDOR Y CONFIRMADA POR EL COMPRADOR. SI POR ALGUNA RAZON LA INSPECCION NO SE LLEVA A CABO EN LA FECHA COMPROMISO, LOS 45 (CUARENTA Y CINCO) DIAS NATURALES DE CREDITO INVARIABLEMENTE EMPEZARAN A CORRER A PARTIR DE LA FECHA COMPROMISO DE INSPECCION PREVIAMENTE PACTADA O ACORDADA.</p>
+        <p>EN CASO DE QUE EL COMPRADOR INCUMPLA CON EL TOTAL DEL PAGO DEL CRÉDITO, LA COTIZACIÓN Y/O LA ORDEN DE COMPRA, EL COMPRADOR ESTARÁ OBLIGADO A PAGAR TODOS Y CADA UNO DE LOS GASTOS EN QUE HAYA INCURRIDO EL VENDEDOR PARA EL CUMPLIMIENTO DE LA ENTREGA DE LA ORDEN DE COMPRA SOLICITADA, ACEPTADA Y APROBADA POR EL COMPRADOR. ESTOS GASTOS, DE MANERA ENUNCIATIVA, MÁS NO LIMITATIVA, PODRÁN CONSISTIR EN: PAGO DE PROVEEDORES, INSUMOS, MATERIALES, TRANSPORTE, ALMACENAMIENTO, CONTENEDORES, ARANCELES, ENVÍOS, APARTADOS, ENTRE OTROS.</p>
+        <p>EL PAGO DE SERVICIOS ES DEL 100% ANTICIPADO.</p>
+        <p>EL COMPRADOR ESTÁ OBLIGADO A PAGAR POR ANTICIPADO AL VENDEDOR, LOS COSTOS ADICIONALES EN QUE INCURRA EL VENDEDOR DESDE EL MOMENTO EN QUE EL EQUIPO SALGA DEL ALMACÉN DEL VENDEDOR Y HASTA QUE LLEGUE AL SITIO FINAL DE ENTREGA. DICHOS COSTOS, DE MANERA ENUNCIATIVA, MÁS NO LIMITATIVA, PODRÁN SER: EL FLETE, EL SEGURO Y LA CUSTODIA, ENTRE OTROS AFINES Y NECESARIOS. SERÁ RESPONSABILIDAD DEL COMPRADOR LLEVAR A CABO LAS MANIOBRAS DE CARGA Y DESCARGA EN EL SITIO FINAL DE ENTREGA, ASÍ COMO GESTIONAR CUALQUIER ACTIVIDAD Y/O PROCEDIMIENTO QUE EL COMPRADOR REQUIERA DE MANERA ADICIONAL.</p>
+        <p>EL PAGO SE PODRÁ REALIZAR EN MONEDA NACIONAL TOMANDO COMO BASE LA PARIDAD PUBLICADA EN EL DIARIO OFICIAL DE LA FEDERACIÓN A LA FECHA DE PAGO.</p>
+        <p>DERIVADO DEL VOLUMEN DE LA ORDEN DE COMPRA, DE NO EFECTUARSE EL PAGO DEL CRÉDITO, LA ORDEN DE COMPRA Y/O LA COTIZACIÓN EN EL PLAZO DE PAGO ACORDADO O PLAZOS DE PAGOS ACORDADOS, EL VENDEDOR PODRÁ DETENER EL ENVÍO DE ENTREGAS PARCIALES, HASTA EN TANTO EL COMPRADOR CUMPLA CON LA TOTALIDAD DEL PAGO DEL CRÉDITO, LA COTIZACIÓN Y/O LA ORDEN DE COMPRA RESPECTIVA.</p>
+        <p>UNA VEZ FINCADA LA ORDEN DE COMPRA NO SE ACEPTARAN CAMBIOS NI DEVOLUCIONES, YA QUE LOS PROVEEDORES NO MANEJAN STOCK Y TODO EL MATERIAL ES BAJO PRODUCCION ESPECIAL.</p>
+        <p>LOS ENVÍOS SE REALIZARÁN MEDIANTE CONTENEDORES COMPLETOS, CUALQUIER COSTO QUE SE GENERE POR COSTO DE SEGURO Y CUSTODIA DE TRASLADO SERÁ A CARGO DEL COMPRADOR.</p>
+        <p>ALMACENAJE: A PARTIR DEL ONCEAVO DÍA HÁBIL DE QUE EL VENDEDOR DE AVISO AL COMPRADOR QUE SU MERCANCÍA SE ENCUENTRA LISTA PARA SER INSPECCIONADA EN EL ALMACEN DEL VENDEDOR, SE COBRARÁ AL COMPRADOR EL ALMACENAJE CORRESPONDIENTE AL 0.25% DEL MONTO TOTAL DE LA ORDEN DE COMPRA POR CADA SEMANA QUE DICHA MERCANCÍA PERMANEZCA EN EL ALMACÉN DEL VENDEDOR.</p>
+        <p>PREVIO A LA SALIDA DEL CONTENEDOR, EL VENDEDOR PODRÁ OTORGAR AL COMPRADOR UN DERECHO DE INSPECCIÓN DEL EQUIPO. PARA ELLO, EL COMPRADOR DEBERÁ NOTIFICAR POR ESCRITO AL VENDEDOR SU SOLICITUD DE DERECHO DE INSPECCIÓN, Y EL VENDEDOR EN UN PLAZO DE 24 (VEINTICUATRO) HORAS DEBERÁ COMUNICAR SU RESPUESTA AL COMPRADOR. El VENDEDOR DARA AVISO AL COMPRADOR LA FECHA Y HORA EXACTAS EN QUE SE PODRA LLEVAR A CABO LA INSPECCION CON 5 DIAS PREVIOS. UNA VEZ OBTENIDA LA APROBACIÓN DE INSPECCIÓN, EL COMPRADOR PODRÁ ACUDIR CON SU PERSONAL A LA UBICACIÓN DONDE SE ENCUENTRE EL ALMACÉN DEL VENDEDOR, PARA LLEVAR A CABO LA INSPECCIÓN DEL CONTENEDOR, Y SE PROCEDA AL ENVÍO DEL CONTENEDOR AL SITIO DE ENTREGA FINAL.</p>
+        <p>GARANTÍA: EL EQUIPO ESTÁ GARANTIZADO POR UN PERIODO DE 12 (DOCE) MESES A PARTIR DEL AVISO DE ENTREGA.</p>
+        <p>EL VENDEDOR Y EL COMPRADOR ESTÁN OBLIGADOS A LOS PRESENTES TÉRMINOS Y CONDICIONES ESPECIALES, ASÍ COMO A LOS TÉRMINOS Y CONDICIONES GENERALES DE VENTA. ESTOS ÚLTIMOS PODRÁN SER CONSULTADOS EN EL DOCUMENTO ADJUNTO.</p>
+        <p>EN CASO DE CONFLICTO, DISCREPANCIA O CONTRADICCIÓN ENTRE LA PRESENTE COTIZACIÓN, Y LOS TÉRMINOS Y CONDICIONES GENERALES DE VENTA, LOS PRESENTES TÉRMINOS Y CONDICIONES ESPECIALES PREVALECERÁN Y REGULARÁN LA RELACIÓN COMERCIAL ENTRE LAS PARTES.</p>
+        <p>LAS PARTES RECONOCEN QUE EL PRESENTE DOCUMENTO PODRÁ SER FIRMADO AUTÓGRAFAMENTE O FIRMADO Y ENVIADO MEDIANTE CUALQUIER TIPO DE COMUNICACIÓN DIGITAL O ELECTRÓNICA, POR LO QUE, EN AMBOS CASOS, SUS TÉRMINOS Y CONDICIONES GOZARÁN DE PLENOS EFECTOS LEGALES DE CONFORMIDAD CON EL CÓDIGO DE COMERCIO. NO OBSTANTE LO ANTERIOR, EL VENDEDOR PODRÁ SOLICITAR EN CUALQUIER MOMENTO AL COMPRADOR QUE EL PRESENTE DOCUMENTO SEA ENVIADO Y FIRMADO DE MANERA AUTÓGRAFA.</p>
+        <p> </p>
+        <p>Geranios 76
+          C.P. 53240 Estado de México 
+          Teléfono: +52-55-5363-1508
+          Web: www.mathiesonelco.com 
+          Email: contacto@mathiesonelco.com
+          ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p>
+
+
+        </section>
+
+        <!-- Sección de Firmas -->
+        <section class="signatures">
+            <p>ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p>
+            <div class="signature-lines">
+                <div>{{ invoice.clientName }}</div> 
+                <div>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</div>
+            </div>
+            <div class="signature-labels">
+                <span>EL COMPRADOR</span>
+                <span>EL VENDEDOR</span>
+            </div>
+        </section>
+        
+        <!-- 
         <div class="footer">
           <div class="thanks">
             Thank you!
           </div>
-        </div>
+        </div> 
+        -->
 
         <div class="print">
           <a href="javascript:window.print()">Print</a>
