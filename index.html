@@ -24,8 +24,8 @@
     </section>
     
     <section>
-      <p>Cliente: {{ invoice.ClientName }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
-      Fecha: {{ invoice.Issued | asDate }}<br> <!-- Formatea la fecha como se requiera -->
+      <p>Cliente: {{ clientes.cliente }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
+      Fecha: {{ cotizacion.fecha | asDate }}<br> <!-- Formatea la fecha como se requiera -->
       MUY SEÑORES NUESTROS:<br>
       ATENDIENDO A SU ATENTA SOLICITUD NOS ES GRATO COTIZAR A USTEDES EL EQUIPO REQUERIDO:</p>
   </section>
@@ -125,8 +125,8 @@
           </tr>
         </thead>
         <tbody>
-          <template v-if="Array.isArray(invoice.Items)">
-            <tr v-for="(item, index) in invoice.Items" :key="index">
+          <template v-if="Array.isArray(cotizacion.items)">
+            <tr v-for="(item, index) in cotizacion.items" :key="index">
               <td>{{ index + 1 }}</td> <!-- Muestra el número consecutivo, sumando 1 porque el índice comienza en 0 -->
               <td class="number">{{ item.Quantity }}</td>
               <td>{{ item.Description }}</td>
@@ -137,8 +137,8 @@
           <template v-else>
             <tr>
               <td>1</td> <!-- Índice para un solo item, si no es un array -->
-              <td>{{ invoice.Items }}</td>
-              <td class="money">{{ invoice.Total | currency }}</td>
+              <td>{{ cotizacion.items }}</td>
+              <td class="money">{{ cotizacion.Total | currency }}</td>
             </tr>
           </template>
         </tbody>
