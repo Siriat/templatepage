@@ -7,15 +7,17 @@ function ready(fn) {
 }
 
 function addDemo(row) {
-  if (!row.Issued && !row.Due) {
-    for (const key of ['Number', 'Issued', 'Due']) {
+  if (!row.fecha) {
+    for (const key of ['folio', 'fecha']) {
       if (!row[key]) { row[key] = key; }
     }
+    /*
     for (const key of ['Subtotal', 'Deduction', 'Taxes', 'Total']) {
       if (!(key in row)) { row[key] = key; }
-    }
+    }*/
     if (!('Note' in row)) { row.Note = '(Anything in a Note column goes here)'; }
   }
+/*
   if (!row.Invoicer) {
     row.Invoicer = {
       Name: 'Invoicer.Name',
@@ -28,30 +30,32 @@ function addDemo(row) {
       Phone: 'Invoicer.Phone',
       Website: 'Invoicer.Website'
     }
-  }
-  if (!row.Client) {
-    row.Client = {
-      Name: 'Client.Name',
-      Street1: 'Client.Street1',
-      Street2: 'Client.Street2',
-      City: 'Client.City',
-      State: '.State',
-      Zip: '.Zip'
+  }*/
+  
+    if (!row.cliente) {
+    row.cliente = {
+      Nombre: 'cliente.cliente',
+      Domicilio: 'cliente.domicilio',
+      rfc: 'cliente.rfc',
+     // City: 'cliente.City',
+     // State: '.State',
+      //Zip: '.Zip'
     }
   }
-  if (!row.Items) {
-    row.Items = [
+
+  if (!row.items) {
+    row.items = [
       {
-        Description: 'Items[0].Description',
-        Quantity: '.Quantity',
-        Total: '.Total',
-        Price: '.Price',
+        producto_descripcio: 'items[0].producto_descripcio',
+        cantidad: '.cantidad',
+        producto_precio: '.Price',
+        total:'.total',
       },
       {
-        Description: 'Items[1].Description',
-        Quantity: '.Quantity',
-        Total: '.Total',
-        Price: '.Price',
+        producto_descripcio: 'items[1].producto_descripcio',
+        cantidad: '.cantidad',
+        producto_precio: '.Price',
+        total:'.total',
       },
     ];
   }
@@ -151,8 +155,8 @@ function updateInvoice(row) {
     // Add some guidance about columns.
     const want = new Set(Object.keys(addDemo({})));
     const accepted = new Set(['References']);
-    const importance = ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
-    if (!(row.Due || row.Issued)) {
+    const importance = ['folio', 'cliente', 'items', 'fecha'];// ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
+    if (!(row.fecha)) {
       const seen = new Set(Object.keys(row).filter(k => k !== 'id' && k !== '_error_'));
       const help = row.Help = {};
       help.seen = prepareList(seen);
@@ -168,24 +172,26 @@ function updateInvoice(row) {
       if (recognized.length > 0) {
         help.recognized = prepareList(recognized);
       }
-      if (!seen.has('References') && !(row.Issued || row.Due)) {
+      if (!seen.has('References') && !(row.fecha)) {
         row.SuggestReferencesColumn = true;
       }
     }
     addDemo(row);
-    if (!row.Subtotal && !row.Total && row.Items && Array.isArray(row.Items)) {
+    // nos se que sea esto
+    if (!row.Subtotal && !row.Total && row.items && Array.isArray(row.otems)) {
       try {
-        row.Subtotal = row.Items.reduce((a, b) => a + b.Price * b.Quantity, 0);
+        row.Subtotal = row.items.reduce((a, b) => a + b.Price * b.Quantity, 0);
         row.Total = row.Subtotal + (row.Taxes || 0) - (row.Deduction || 0);
       } catch (e) {
         console.error(e);
       }
     }
-    if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
+    // invoicer, ya no se usa
+  /*  if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
       row.Invoicer.Url = tweakUrl(row.Invoicer.Website);
-    }
+    } */
 
-    // Fiddle around with updating Vue (I'm not an expert).
+      // Fiddle around with updating Vue (I'm not an expert).
     for (const key of want) {
       Vue.delete(data.invoice, key);
     }

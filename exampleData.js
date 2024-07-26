@@ -1,45 +1,43 @@
 const exampleData = {
-  Number: 14999,
-  Issued: Date.parse('2020-10-12') / 1000,
-  Due: Date.parse('2020-11-12') / 1000,
-
-  Invoicer: {
-    Name: 'Thunderous Applause',
-    Street1: '812 Automated Rd',
-    Street2: null,
-    City: 'New York',
-    State: 'NY',
-    Zip: '10003',
-    Email: 'applause@thunder.com',
-    Phone: '+1-800-111-1111',
-    Website: 'applause.com',
+  "id": 3,
+  "folio": "103",
+  "cliente": {
+    "tableId": "Clientes",
+    "rowId": 1
   },
-
-  Client: {
-    Name: 'Monkeys Juggling',
-    Street1: '100 Banana St',
-    City: 'Bananaberg',
-    State: 'NJ',
-    Zip: '07048',
+  "fecha": "2024-07-23T05:00:00.000Z",
+  "Referencia": {
+    "cliente": {
+      "cliente": "SERVICIOS TECNICOS INDUSTRIALES\nINTERNACIONALES",
+      "domicilio": 64380,
+      "id": 1,
+      "rfc": "STI960112955"
+    },
+    "fecha": "2024-07-23T05:00:00.000Z",
+    "folio": "103",
+    "id": 3,
+    "items": [
+      {
+        "cantidad": 3,
+        "coti": {
+          "tableId": "Cotizacion2",
+          "rowId": 3
+        },
+        "id": 7,
+        "producto": {
+          "tableId": "Producto",
+          "rowId": 1
+        },
+        "producto_descripcio": "CONJUNTO DE AURICULAR CON CORDÓN DE 6 PIES.",
+        "producto_precio": 719.26,
+        "total": 2157.7799999999997
+      }
+    ]
   },
-
-  Items: [
-    {
-      Description: 'Wolf Whistle',
-      Price: 35,
-      Quantity: 3,
-      Total: 105,
-    },
-    {
-      Description: 'Bravo',
-      Price: 30,
-      Quantity: 17,
-      Total: 510,
-    },
-  ],
-
-  Subtotal: 615,
-  Deduction: null,
-  Taxes: null,
-  Total: 615,
+  "items": {
+    "tableId": "Items",
+    "rowIds": [
+      7
+    ]
+  }
 };
