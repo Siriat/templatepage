@@ -154,7 +154,7 @@ function updateInvoice(row) {
 
     // Add some guidance about columns.
     const want = new Set(Object.keys(addDemo({})));
-    const accepted = new Set(['References']);
+    const accepted = new Set(['Referencia']);
     const importance = ['folio', 'cliente', 'items', 'fecha'];// ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
     if (!(row.fecha)) {
       const seen = new Set(Object.keys(row).filter(k => k !== 'id' && k !== '_error_'));
@@ -172,7 +172,7 @@ function updateInvoice(row) {
       if (recognized.length > 0) {
         help.recognized = prepareList(recognized);
       }
-      if (!seen.has('References') && !(row.fecha)) {
+      if (!seen.has('Referencia') && !(row.fecha)) {
         row.SuggestReferencesColumn = true;
       }
     }
@@ -195,7 +195,7 @@ function updateInvoice(row) {
     for (const key of want) {
       Vue.delete(data.invoice, key);
     }
-    for (const key of ['Help', 'SuggestReferencesColumn', 'References']) {
+    for (const key of ['Help', 'SuggestReferencesColumn', 'Referencia']) {
       Vue.delete(data.invoice, key);
     }
     data.invoice = Object.assign({}, data.invoice, row);
