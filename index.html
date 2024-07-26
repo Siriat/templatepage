@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/es.js"></script>
 
     <script src="invoice.js?ver=11"></script>
     <script src="exampleData.js"></script>
@@ -28,6 +29,7 @@
 
      <p>Cliente: {{ invoice.Referencia.cliente.cliente }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
       Fecha: {{ invoice.fecha | asDate }}<br> <!-- Formatea la fecha como se requiera -->
+      <br>
       MUY SEÑORES NUESTROS:<br>
       ATENDIENDO A SU ATENTA SOLICITUD NOS ES GRATO COTIZAR A USTEDES EL EQUIPO REQUERIDO:</p>
   </section>
@@ -150,7 +152,7 @@
         <div class="summary">
           <div class="part">
             <div class="title">Subtotal</div>
-            <div class="details">{{ invoice.Subtotal | currency }}</div>
+            <div class="details">{{ invoice.subtotal | currency }}</div>
           </div>
           <div class="part">
             <div class="title">Deduction</div>

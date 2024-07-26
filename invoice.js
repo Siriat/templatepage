@@ -34,9 +34,9 @@ function addDemo(row) {
   
     if (!row.cliente) {
     row.cliente = {
-      Nombre: 'cliente.cliente',
-      Domicilio: 'cliente.domicilio',
-      rfc: 'cliente.rfc',
+      Nombre: 'cliente.Referencia.cliente',
+      Domicilio: 'cliente.Referencia.domicilio',
+      rfc: 'cliente.Referencia.rfc',
      // City: 'cliente.City',
      // State: '.State',
       //Zip: '.Zip'
@@ -100,9 +100,11 @@ Vue.filter('asDate', function(value) {
   if (typeof(value) === 'number') {
     value = new Date(value * 1000);
   }
-  const date = moment.utc(value)
-  return date.isValid() ? date.format('MMMM DD, YYYY') : value;
+  moment.locale('es'); // Establece el locale a español
+  const date = moment(value);
+  return date.isValid() ? date.format('LL') : value; // 'LL' es un formato que incluye el nombre del mes y el día en forma extendida
 });
+
 
 function tweakUrl(url) {
   if (!url) { return url; }
@@ -178,18 +180,34 @@ function updateInvoice(row) {
     }
     addDemo(row);
     // nos se que sea esto
-    if (!row.Subtotal && !row.Total && row.items && Array.isArray(row.otems)) {
+    /* if (!row.Subtotal && !row.Total && row.items && Array.isArray(row.otems)) {
       try {
         row.Subtotal = row.items.reduce((a, b) => a + b.Price * b.Quantity, 0);
         row.Total = row.Subtotal + (row.Taxes || 0) - (row.Deduction || 0);
       } catch (e) {
         console.error(e);
       }
-    }
+    }  */
     // invoicer, ya no se usa
   /*  if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
       row.Invoicer.Url = tweakUrl(row.Invoicer.Website);
     } */
+
+        // Calcular los totales de los items si 'Items' está presente y es un array.
+    if (row.Referencia.items && Array.isArray(row.Referencia.items)) {
+      row.Referencia.items.forEach(item => {
+        // Asegurarse de que cada item tenga 'Price' y 'Quantity' definidos.
+        if ('producto_precio' in item && 'cantidad' in item) {
+          item.total = item.producto_precio * item.cantidad;
+        } else {
+          throw new Error('Each item must have a Price and a Quantity defined.');
+        }
+      });
+
+      // Calcular el subtotal sumando los totales de cada item.
+      row.subtotal = row.Referencia.items.reduce((acc, item) => acc + item.total, 0);
+    }
+
 
       // Fiddle around with updating Vue (I'm not an expert).
     for (const key of want) {
