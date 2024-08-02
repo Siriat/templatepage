@@ -98,12 +98,17 @@ Vue.filter('fallback', function(value, str) {
 
 Vue.filter('asDate', function(value) {
   if (typeof(value) === 'number') {
+    // Convierte el valor de timestamp a milisegundos si es necesario
     value = new Date(value * 1000);
+  } else if (typeof(value) === 'string') {
+    // Si el valor es una cadena, asegúrate de manejarlo directamente
+    value = new Date(value);
   }
   moment.locale('es'); // Establece el locale a español
-  const date = moment.utc(value); // Utiliza UTC para no alterar la fecha original
-  return date.isValid() ? date.format('LL') : value; // 'LL' para el formato largo local
+  const date = moment(value); // Crea un objeto moment sin cambiar su zona horaria
+  return date.isValid() ? date.format('LL') : '';
 });
+
 
 
 
