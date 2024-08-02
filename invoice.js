@@ -105,7 +105,7 @@ Vue.filter('asDate', function(value) {
     value = new Date(value);
   }
   moment.locale('es'); // Establece el locale a español
-  const date = moment(value); // Crea un objeto moment con la fecha dada
+  const date = moment.utc(value); // Trata la fecha como UTC
   return date.isValid() ? date.format('LL') : value; // Formatea o devuelve el valor original si no es válido
 });
 
