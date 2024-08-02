@@ -104,8 +104,9 @@ Vue.filter('asDate', function(value) {
     // Si el valor es una cadena ISO, crea un nuevo objeto Date a partir de ella
     value = new Date(value);
   }
+  value.setHours(value.getHours() + 5);  // Añade 5 horas para evitar problemas de zona horaria
   moment.locale('es'); // Establece el locale a español
-  const date = moment.utc(value); // Trata la fecha como UTC
+  const date = moment(value); // Crea un objeto moment con la fecha ajustada
   return date.isValid() ? date.format('LL') : value; // Formatea o devuelve el valor original si no es válido
 });
 
