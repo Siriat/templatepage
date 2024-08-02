@@ -101,14 +101,14 @@ Vue.filter('asDate', function(value) {
     // Asume que el valor es un timestamp en segundos y lo convierte a milisegundos
     value = new Date(value * 1000);
   } else if (typeof(value) === 'string') {
-    // Si el valor es una cadena ISO, crea un nuevo objeto Date a partir de ella
+    // Si el valor es una cadena ISO, interpreta directamente como UTC
     value = new Date(value);
   }
-  value.setHours(value.getHours() + 5);  // Añade 5 horas para evitar problemas de zona horaria
   moment.locale('es'); // Establece el locale a español
-  const date = moment(value); // Crea un objeto moment con la fecha ajustada
+  const date = moment.utc(value).local(); // Trata la fecha como UTC y luego la convierte a local para formateo
   return date.isValid() ? date.format('LL') : value; // Formatea o devuelve el valor original si no es válido
 });
+
 
 
 
