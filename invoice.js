@@ -96,9 +96,11 @@ Vue.filter('asDate', function(value) {
   if (typeof(value) === 'number') {
     value = new Date(value * 1000);
   }
-  const date = moment.utc(value)
-  return date.isValid() ? date.format('MMMM DD, YYYY') : value;
+  moment.locale('es'); // Establece el locale a español
+  const date = moment(value);
+  return date.isValid() ? date.format('LL') : value; // 'LL' es un formato que incluye el nombre del mes y el día en forma extendida
 });
+
 
 function tweakUrl(url) {
   if (!url) { return url; }
