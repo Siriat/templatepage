@@ -101,8 +101,8 @@ Vue.filter('asDate', function(value) {
     value = new Date(value * 1000);
   }
   moment.locale('es'); // Establece el locale a español
-  const date = moment(value);
-  return date.isValid() ? date.format('LL') : value; // 'LL' es un formato que incluye el nombre del mes y el día en forma extendida
+  const date = moment.utc(value); // Utiliza UTC para no alterar la fecha original
+  return date.isValid() ? date.format('LL'); // 'LL' para el formato largo local
 });
 
 
