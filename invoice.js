@@ -7,15 +7,17 @@ function ready(fn) {
 }
 
 function addDemo(row) {
-  if (!row.Issued && !row.Due) {
-    for (const key of ['Number', 'Issued', 'Due']) {
+  if (!row.fecha) {
+    for (const key of ['folio', 'fecha']) {
       if (!row[key]) { row[key] = key; }
     }
+    /*
     for (const key of ['Subtotal', 'Deduction', 'Taxes', 'Total']) {
       if (!(key in row)) { row[key] = key; }
-    }
+    }*/
     if (!('Note' in row)) { row.Note = '(Anything in a Note column goes here)'; }
   }
+/*
   if (!row.Invoicer) {
     row.Invoicer = {
       Name: 'Invoicer.Name',
@@ -28,33 +30,32 @@ function addDemo(row) {
       Phone: 'Invoicer.Phone',
       Website: 'Invoicer.Website'
     }
-  }
-  if (!row.Client) {
-    row.Client = {
-      Name: 'Client.Name',
-      Street1: 'Client.Street1',
-      Street2: 'Client.Street2',
-      City: 'Client.City',
-      State: '.State',
-      Zip: '.Zip'
+  }*/
+  
+    if (!row.cliente) {
+    row.cliente = {
+      Nombre: 'cliente.Referencia.cliente',
+      Domicilio: 'cliente.Referencia.domicilio',
+      rfc: 'cliente.Referencia.rfc',
+     // City: 'cliente.City',
+     // State: '.State',
+      //Zip: '.Zip'
     }
   }
-  if (!row.Items) {
-    row.Items = [
-      { Brand: 'Items[0].Brand'
-		PartNumber: '.PartNumber'
-        Description: '.Description',
-        Quantity: '.Quantity',
-        Total: '.Total',
-        Price: '.Price',
+
+  if (!row.items) {
+    row.items = [
+      {
+        producto_descripcio: 'items[0].producto_descripcio',
+        cantidad: '.cantidad',
+        producto_precio: '.Price',
+        total:'.total',
       },
-      { Brand: 'Items[1].Brand'
-		PartNumber: '.PartNumber'
-		PartID: '.PartID'
-        Description: '.Description',
-        Quantity: '.Quantity',
-        Total: '.Total',
-        Price: '.Price',
+      {
+        producto_descripcio: 'items[1].producto_descripcio',
+        cantidad: '.cantidad',
+        producto_precio: '.Price',
+        total:'.total',
       },
     ];
   }
@@ -155,9 +156,9 @@ function updateInvoice(row) {
 
     // Add some guidance about columns.
     const want = new Set(Object.keys(addDemo({})));
-    const accepted = new Set(['References']);
-    const importance = ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
-    if (!(row.Due || row.Issued)) {
+    const accepted = new Set(['Referencia']);
+    const importance = ['folio', 'cliente', 'items', 'fecha'];// ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
+    if (!(row.fecha)) {
       const seen = new Set(Object.keys(row).filter(k => k !== 'id' && k !== '_error_'));
       const help = row.Help = {};
       help.seen = prepareList(seen);
@@ -173,28 +174,46 @@ function updateInvoice(row) {
       if (recognized.length > 0) {
         help.recognized = prepareList(recognized);
       }
-      if (!seen.has('References') && !(row.Issued || row.Due)) {
+      if (!seen.has('Referencia') && !(row.fecha)) {
         row.SuggestReferencesColumn = true;
       }
     }
     addDemo(row);
-    if (!row.Subtotal && !row.Total && row.Items && Array.isArray(row.Items)) {
+    // nos se que sea esto
+    /* if (!row.Subtotal && !row.Total && row.items && Array.isArray(row.otems)) {
       try {
-        row.Subtotal = row.Items.reduce((a, b) => a + b.Price * b.Quantity, 0);
+        row.Subtotal = row.items.reduce((a, b) => a + b.Price * b.Quantity, 0);
         row.Total = row.Subtotal + (row.Taxes || 0) - (row.Deduction || 0);
       } catch (e) {
         console.error(e);
       }
-    }
-    if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
+    }  */
+    // invoicer, ya no se usa
+  /*  if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
       row.Invoicer.Url = tweakUrl(row.Invoicer.Website);
+    } */
+
+        // Calcular los totales de los items si 'Items' está presente y es un array.
+    if (row.Referencia.items && Array.isArray(row.Referencia.items)) {
+      row.Referencia.items.forEach(item => {
+        // Asegurarse de que cada item tenga 'Price' y 'Quantity' definidos.
+        if ('producto_precio' in item && 'cantidad' in item) {
+          item.total = item.producto_precio * item.cantidad;
+        } else {
+          throw new Error('Each item must have a Price and a Quantity defined.');
+        }
+      });
+
+      // Calcular el subtotal sumando los totales de cada item.
+      row.subtotal = row.Referencia.items.reduce((acc, item) => acc + item.total, 0);
     }
 
-    // Fiddle around with updating Vue (I'm not an expert).
+
+      // Fiddle around with updating Vue (I'm not an expert).
     for (const key of want) {
       Vue.delete(data.invoice, key);
     }
-    for (const key of ['Help', 'SuggestReferencesColumn', 'References']) {
+    for (const key of ['Help', 'SuggestReferencesColumn', 'Referencia']) {
       Vue.delete(data.invoice, key);
     }
     data.invoice = Object.assign({}, data.invoice, row);

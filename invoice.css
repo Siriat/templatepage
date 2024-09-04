@@ -72,28 +72,24 @@ footer {
   padding: 4px;
   background-color: var(--grist-theme-page-panels-main-panel-bg, white);
 }
-table.items {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
 
-table.items th, table.items td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
+table.items {
+  width: 100%;
+  border: 1px solid #454545;
+  border-collapse: collapse;
 }
 
 table.items th {
-    background-color: #f2f2f2;
+  text-align: left;
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+  padding: 4px;
 }
 
-table.items tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.money, .number {
-    text-align: right;
+table.items td {
+  background-color: var(--grist-theme-page-panels-main-panel-bg, white);
+  padding: 4px;
 }
 
 .client .title, .summary .title, table.items th, .help .title {
@@ -101,70 +97,9 @@ table.items tr:nth-child(even) {
   padding-bottom: 10px;
 }
 
-table.items tfoot tr td {
-    font-weight: bold;
-    text-align: right;
-    background-color: #f2f2f2; /* Color de fondo para el pie de la tabla */
+.money, .number {
+  text-align: right;
 }
-
-.terms-conditions {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f8f8f8; /* Fondo claro para destacar la sección */
-    border: 1px solid #dcdcdc; /* Borde sutil */
-}
-
-.terms-conditions h2 {
-    color: #333;
-    font-size: 18px; /* Tamaño adecuado para subtítulo */
-}
-
-.terms-conditions p {
-    font-size: 14px; /* Tamaño de fuente para la legibilidad del texto */
-    color: #666; /* Color oscuro para contraste con el fondo */
-    line-height: 1.5; /* Espaciado de línea para mejorar la legibilidad */
-    margin-top: 10px;
-    text-align: justify; /* Justifica el texto para una presentación formal */
-}
-
-
-.signature-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-}
-
-.signature-block {
-    flex-basis: 48%; /* Ajusta el ancho de cada bloque para firmas */
-    text-align: center;
-}
-
-.signature-line {
-    border-top: 1px solid black;
-    margin: 10px 0; /* Espacio arriba y abajo de la línea */
-}
-
-
-.footer-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px; /* Ajusta según la necesidad */
-    padding: 10px; /* Añade un poco de espacio */
-}
-
-.address, .contact {
-    text-align: left; /* Alinea el texto a la izquierda para la dirección */
-    width: 48%; /* Ajusta el ancho para distribuir el espacio */
-}
-
-.contact {
-    text-align: right; /* Alinea el texto a la derecha para los contactos */
-}
-
-.address p, .contact p {
-    margin: 5px 0; /* Espaciado vertical entre líneas */
-}
-
 
 .name {
   color: #000080;
