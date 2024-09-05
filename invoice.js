@@ -162,8 +162,8 @@ function updateInvoice(row) {
 
     // Asegurar que cada campo necesario esté disponible en Vue para su uso en HTML
     const fieldsNeeded = [
-      'folio', 'multiplicador', 'estatus', 'Referencia.Proyecto.cliente_final',
-      'items', 'cliente', 'fecha', 'nota', 'Referencia.Proyecto.ubicacion'
+      'folio', 'multiplicador', 'estatus',
+      'items', 'cliente', 'fecha', 'nota', 'Referencia.Proyecto'
     ];
     
     // Mapeo de campos complejos o anidados para facilitar su acceso
@@ -171,8 +171,7 @@ function updateInvoice(row) {
       folio: row.folio,
       multipicador: row.multiplicador,
       estatus: row.estatus,
-      clienteFinal: row.Referencia.Proyecto.cliente_final,
-      ubicacion: row.Referencia.Proyecto.ubicacion,
+      Proyecto: row.Referencia.Proyecto,
       cliente: row.cliente,
       fecha: row.fecha,
       nota: row.nota,
