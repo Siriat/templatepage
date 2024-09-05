@@ -8,7 +8,7 @@ function ready(fn) {
 
 function addDemo(row) {
   if (!row.fecha) {
-    for (const key of ['folio', 'fecha']) {
+    for (const key of ['folio', 'fecha','nota','contacto','multiplicador','estatus']) {
       if (!row[key]) { row[key] = key; }
     }
     /*
@@ -34,13 +34,21 @@ function addDemo(row) {
   
     if (!row.cliente) {
     row.cliente = {
-      Nombre: 'cliente.Referencia.cliente',
-      Domicilio: 'cliente.Referencia.domicilio',
-      rfc: 'cliente.Referencia.rfc',
-     // City: 'cliente.City',
-     // State: '.State',
-      //Zip: '.Zip'
+      Nombre: 'Referencia.cliente.empresa',
+      Domicilio: 'Referencia.domicilio.domicilio',
+      rfc: 'Referencia.cliente.rfc',
+      Contacto: 'Referencia.cliente.contacto'
+	  correo: 'Referencia.cliente.correo'
     }
+  }    
+  
+  if (!row.Proyecto) {
+    row.cliente = {
+      cliente_final: 'Referencia.Proyecto.cliente_final',
+      ejecutivo: 'Referencia.Proyecto.ejecutivo',
+      nombre: 'Referencia.Proyecto.nombre',
+      ubicacion: 'Referencia.Proyecto.ubicacion'
+	  }
   }
 
   if (!row.items) {
@@ -50,12 +58,21 @@ function addDemo(row) {
         cantidad: '.cantidad',
         producto_precio: '.Price',
         total:'.total',
+		partida: '.partida',
+		product_id:'.product_id',
+		marca: '.marca',
+		nota: '.nota'
+
       },
       {
         producto_descripcio: 'items[1].producto_descripcio',
         cantidad: '.cantidad',
         producto_precio: '.Price',
         total:'.total',
+		partida: '.partida',
+		product_id:'.product_id',
+		marca: '.marca',
+		nota: '.nota'
       },
     ];
   }
