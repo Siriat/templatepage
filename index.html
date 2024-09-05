@@ -20,11 +20,27 @@
     <div id="app">
       <section>
         <img src="logo_mathiesonelco.png" alt="Logo Empresa" style="height: 50px;"> <!-- Ajusta el path y el estilo -->
-        <h1>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h1>
-        <h2>ME-3340, Adq. de elementos para la atención en los centros de procesos de la Region Marina Noreste</h2>
+        <h2>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h2>
     </section>
     
 
+<section>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="width: 50%;">Cotización: {{ invoice.folio }}</td>
+            <td style="width: 50%; text-align: right;">Fecha: {{ invoice.fecha | asDate }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Proyecto: {{ invoice.Proyecto.nombre }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Cliente: {{ invoice.cliente.Nombre }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Contacto: {{ invoice.cliente.Contacto }}</td>
+        </tr>
+    </table>
+</section>
 
         <section class="terms-conditions">
         <h2>Términos y Condiciones Especiales</h2>
