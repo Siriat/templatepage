@@ -27,7 +27,7 @@
     <section>
       <p> Cotizacion: {{invoice.folio}} </p>
 
-     <p>Cliente: {{ invoice.Referencia.cliente.cliente }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
+     <p>Cliente: {{ invoice.cliente.Nombre }}<br> <!-- Asume que tienes una variable que se rellena desde la DB -->
       Fecha: {{ invoice.fecha | asDate }}<br> <!-- Formatea la fecha como se requiera -->
       <br>
       MUY SEÑORES NUESTROS:<br>
