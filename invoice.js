@@ -154,85 +154,37 @@ function prepareList(lst, order) {
 
 function updateInvoice(row) {
   try {
-    data.status = '';
     if (row === null) {
       throw new Error("(No data - not on row - please add or select a row)");
     }
-    console.log("GOT...", JSON.stringify(row));
-    if (row.References) {
-      try {
-        Object.assign(row, row.References);
-      } catch (err) {
-        throw new Error('Could not understand References column. ' + err);
-      }
+
+    console.log("Datos recibidos...", JSON.stringify(row));
+
+    // Asegurar que cada campo necesario esté disponible en Vue para su uso en HTML
+    const fieldsNeeded = [
+      'folio', 'multiplicador', 'Referencia.estatus', 'Referencia.Proyecto.cliente_final',
+      'items', 'cliente', 'fecha', 'nota', 'Referencia.Proyecto.ubicacion'
+    ];
+    
+    // Mapeo de campos complejos o anidados para facilitar su acceso
+    const adaptedData = {
+      folio: row.folio,
+      multipicador: row.multiplicador,
+      estatus: row.Referencia.estatus,
+      clienteFinal: row.Referencia.Proyecto.cliente_final,
+      ubicacion: row.Referencia.Proyecto.ubicacion,
+      cliente: row.cliente,
+      fecha: row.fecha,
+      nota: row.nota,
+      items: row.items  // Asumiendo que quieres acceder directamente a los items anidados
+    };
+
+    // Asignar los datos adaptados a Vue
+    for (const [key, value] of Object.entries(adaptedData)) {
+      Vue.set(data.invoice, key, value);
     }
 
-    // Add some guidance about columns.
-    const want = new Set(Object.keys(addDemo({})));
-    const accepted = new Set(['Referencia']);
-    const importance = ['folio', 'cliente', 'items', 'fecha'];// ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
-    if (!(row.fecha)) {
-      const seen = new Set(Object.keys(row).filter(k => k !== 'id' && k !== '_error_'));
-      const help = row.Help = {};
-      help.seen = prepareList(seen);
-      const missing = [...want].filter(k => !seen.has(k));
-      const ignoring = [...seen].filter(k => !want.has(k) && !accepted.has(k));
-      const recognized = [...seen].filter(k => want.has(k) || accepted.has(k));
-      if (missing.length > 0) {
-        help.expected = prepareList(missing, importance);
-      }
-      if (ignoring.length > 0) {
-        help.ignored = prepareList(ignoring);
-      }
-      if (recognized.length > 0) {
-        help.recognized = prepareList(recognized);
-      }
-      if (!seen.has('Referencia') && !(row.fecha)) {
-        row.SuggestReferencesColumn = true;
-      }
-    }
-    addDemo(row);
-    // nos se que sea esto
-    /* if (!row.Subtotal && !row.Total && row.items && Array.isArray(row.otems)) {
-      try {
-        row.Subtotal = row.items.reduce((a, b) => a + b.Price * b.Quantity, 0);
-        row.Total = row.Subtotal + (row.Taxes || 0) - (row.Deduction || 0);
-      } catch (e) {
-        console.error(e);
-      }
-    }  */
-    // invoicer, ya no se usa
-  /*  if (row.Invoicer && row.Invoicer.Website && !row.Invoicer.Url) {
-      row.Invoicer.Url = tweakUrl(row.Invoicer.Website);
-    } */
-
-        // Calcular los totales de los items si 'Items' está presente y es un array.
-    if (row.Referencia.items && Array.isArray(row.Referencia.items)) {
-      row.Referencia.items.forEach(item => {
-        // Asegurarse de que cada item tenga 'Price' y 'Quantity' definidos.
-        if ('producto_precio' in item && 'cantidad' in item) {
-          item.total = item.producto_precio * item.cantidad;
-        } else {
-          throw new Error('Each item must have a Price and a Quantity defined.');
-        }
-      });
-
-      // Calcular el subtotal sumando los totales de cada item.
-      row.subtotal = row.Referencia.items.reduce((acc, item) => acc + item.total, 0);
-    }
-
-
-      // Fiddle around with updating Vue (I'm not an expert).
-    for (const key of want) {
-      Vue.delete(data.invoice, key);
-    }
-    for (const key of ['Help', 'SuggestReferencesColumn', 'Referencia']) {
-      Vue.delete(data.invoice, key);
-    }
-    data.invoice = Object.assign({}, data.invoice, row);
-
-    // Make invoice information available for debugging.
-    window.invoice = row;
+    window.invoice = adaptedData; // Hace disponible la información de la factura para depuración
   } catch (err) {
     handleError(err);
   }
