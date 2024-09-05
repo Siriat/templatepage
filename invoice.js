@@ -8,7 +8,7 @@ function ready(fn) {
 
 function addDemo(row) {
   if (!row.fecha) {
-    for (const key of ['folio', 'fecha','nota','contacto','multiplicador','estatus']) {
+    for (const key of ['folio', 'fecha']) {
       if (!row[key]) { row[key] = key; }
     }
     /*
@@ -34,21 +34,13 @@ function addDemo(row) {
   
     if (!row.cliente) {
     row.cliente = {
-      Nombre: 'Referencia.cliente.empresa',
-      Domicilio: 'Referencia.domicilio.domicilio',
-      rfc: 'Referencia.cliente.rfc',
-      Contacto: 'Referencia.cliente.contacto'
-	  correo: 'Referencia.cliente.correo'
+      Nombre: 'cliente.Referencia.cliente',
+      Domicilio: 'cliente.Referencia.domicilio',
+      rfc: 'cliente.Referencia.rfc',
+     // City: 'cliente.City',
+     // State: '.State',
+      //Zip: '.Zip'
     }
-  }    
-  
-  if (!row.Proyecto) {
-    row.cliente = {
-      cliente_final: 'Referencia.Proyecto.cliente_final',
-      ejecutivo: 'Referencia.Proyecto.ejecutivo',
-      nombre: 'Referencia.Proyecto.nombre',
-      ubicacion: 'Referencia.Proyecto.ubicacion'
-	  }
   }
 
   if (!row.items) {
@@ -58,21 +50,12 @@ function addDemo(row) {
         cantidad: '.cantidad',
         producto_precio: '.Price',
         total:'.total',
-		partida: '.partida',
-		product_id:'.product_id',
-		marca: '.marca',
-		nota: '.nota'
-
       },
       {
         producto_descripcio: 'items[1].producto_descripcio',
         cantidad: '.cantidad',
         producto_precio: '.Price',
         total:'.total',
-		partida: '.partida',
-		product_id:'.product_id',
-		marca: '.marca',
-		nota: '.nota'
       },
     ];
   }
@@ -115,12 +98,25 @@ Vue.filter('fallback', function(value, str) {
 
 Vue.filter('asDate', function(value) {
   if (typeof(value) === 'number') {
+    // Asume que el valor es un timestamp en segundos y lo convierte a milisegundos
     value = new Date(value * 1000);
+  } else if (typeof(value) === 'string') {
+    // Si el valor es una cadena ISO, crea un nuevo objeto Date a partir de ella
+    value = new Date(value);
   }
+
+  // Añade 5 horas para evitar problemas de zona horaria
+  const adjustedDate = new Date(value.getTime() + (5 * 60 * 60 * 1000));
+
   moment.locale('es'); // Establece el locale a español
-  const date = moment(value);
-  return date.isValid() ? date.format('LL') : value; // 'LL' es un formato que incluye el nombre del mes y el día en forma extendida
+  const date = moment(adjustedDate); // Crea un objeto moment con la fecha ajustada
+  return date.isValid() ? date.format('LL') : value; // Formatea o devuelve el valor original si no es válido
 });
+
+
+
+
+
 
 
 function tweakUrl(url) {
