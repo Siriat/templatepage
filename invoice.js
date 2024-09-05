@@ -170,7 +170,7 @@ function updateInvoice(row) {
     const adaptedData = {
       folio: row.folio,
       multipicador: row.multiplicador,
-      estatus: row.Referencia.estatus,
+      estatus: row.estatus,
       clienteFinal: row.Referencia.Proyecto.cliente_final,
       ubicacion: row.Referencia.Proyecto.ubicacion,
       cliente: row.cliente,
