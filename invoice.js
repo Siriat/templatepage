@@ -34,9 +34,9 @@ function addDemo(row) {
   
     if (!row.cliente) {
     row.cliente = {
-      Nombre: 'cliente.Referencia.cliente',
-      Domicilio: 'cliente.Referencia.domicilio',
-      rfc: 'cliente.Referencia.rfc',
+      Nombre: 'Referencia.cliente.cliente',
+      Domicilio: 'Referencia.cliente.domicilio',
+      rfc: 'Referencia.cliente.rfc',
      // City: 'cliente.City',
      // State: '.State',
       //Zip: '.Zip'
