@@ -92,7 +92,7 @@ table.items tr:nth-child(even) {
 }
 
 .money, .number {
-  text-align: right;
+  text-align: left;
 }
 
 table.items tfoot tr td {
