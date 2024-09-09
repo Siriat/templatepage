@@ -203,10 +203,22 @@ function updateInvoice(row) {
     ////////////////////// aqui esta mi codigo////////////
 
     if (row.Referencia && Array.isArray(row.Referencia.items)) {
+  
+      // Ordenar los items por partida antes de realizar el resto del proceso
+      row.Referencia.items.sort((a, b) => {
+        const partidaA = a.partida.split('.').map(num => parseInt(num, 10)); // Convertir a array de números
+        const partidaB = b.partida.split('.').map(num => parseInt(num, 10)); // Convertir a array de números
+    
+        for (let i = 0; i < Math.max(partidaA.length, partidaB.length); i++) {
+          if ((partidaA[i] || 0) < (partidaB[i] || 0)) return -1;
+          if ((partidaA[i] || 0) > (partidaB[i] || 0)) return 1;
+        }
+        return 0;
+      });
       
       // Variable para acumular el total
       let totalGeneral = 0;
-      
+    
       // Recorremos cada item en row.Referencia.items
       row.Referencia.items.forEach(item => {
         
@@ -214,22 +226,32 @@ function updateInvoice(row) {
         if (!item.partida || item.partida.trim() === "") {
           throw new Error(`Error en la partida: La partida no existe en uno de los items`);
         }
-
+    
         // Verificar que la cantidad sea mayor que cero
         if (!item.cantidad || item.cantidad <= 0) {
           throw new Error(`Error en la cantidad: El item con partida ${item.partida} tiene una cantidad inválida (debe ser mayor que cero).`);
         }
-
+    
+        // Verificar que producto_precio2 sea mayor o diferente de cero, de lo contrario usar precio_serv
+        if (!item.producto_precio2 || item.producto_precio2 <= 0) {
+          if (item.precio_serv > 0) {
+            item.producto_precio2 = item.precio_serv;
+          } else {
+            throw new Error(`Error en el precio: El item con partida ${item.partida} no tiene un precio válido.`);
+          }
+        }
+    
         // Sumar los totales si el total está presente
         if (item.total) {
           totalGeneral += item.total;
         }
       });
-
+    
       // Asignar el total sumado a row.Total
       row.totalGeneral = totalGeneral;
       console.log("Total sumado de los items:", totalGeneral);
     }
+    
 
 
 
