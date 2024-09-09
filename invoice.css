@@ -3,23 +3,23 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 5px;
+  font-size: 0.7em;
+
 }
 
 @page {
-    margin-top: 100px; /* Ajusta según el tamaño de tu encabezado */
-    margin-bottom: 50px; /* Ajusta según el tamaño de tu pie de página */
-    @top-center {
-        content: element(header);
-    }
-    @bottom-center {
-        content: element(footer);
-    }
+  margin-top: 100px;
+  margin-bottom: 50px;
+  @top-center {
+    content: element(header);
+  }
+  @bottom-center {
+    content: element(footer);
+  }
 }
-header {
-    position: running(header);
-}
-footer {
-    position: running(footer);
+
+header, footer {
+  position: running(header);
 }
 
 .meta {
@@ -31,11 +31,7 @@ footer {
   font-weight: bold;
 }
 
-.header .meta {
-  text-transform: uppercase;
-}
-
-.info .meta {
+.header .meta, .info .meta {
   text-transform: uppercase;
 }
 
@@ -43,17 +39,13 @@ footer {
   content: " :";
 }
 
-.supplier {
+.supplier, .block {
   color: #4682B4;
   display: block;
-}
-
-.block {
   padding-left: 5px;
-  display: block;
 }
 
-.client, .items, .summary {
+.client, .items, .summary, .help {
   padding: 1px;
   margin-top: 1em;
   margin-bottom: 1em;
@@ -62,122 +54,125 @@ footer {
   color-adjust: exact !important;
 }
 
-.client .title, .summary .title {
+.client .title, .summary .title, .help .title, table.items th {
   margin-left: 4px;
   color: white;
   text-transform: uppercase;
-}
-
-.client .details, .summary .details {
-  padding: 4px;
-  background-color: var(--grist-theme-page-panels-main-panel-bg, white);
-}
-table.items {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table.items th, table.items td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-}
-
-table.items th {
-    background-color: #f2f2f2;
-}
-
-table.items tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.money, .number {
-    text-align: right;
-}
-
-.client .title, .summary .title, table.items th, .help .title {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
+.client .details, .summary .details, .help .details {
+  padding: 4px;
+  background-color: var(--grist-theme-page-panels-main-panel-bg, white);
+}
+
+table.items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table.items th, table.items td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+  color: black; /* Cambia el color del texto a negro */
+
+}
+
+
+
+table.items th {
+  background-color: #f2f2f2;
+}
+
+table.items tr:nth-child(even) {
+  background-color: #000000;
+}
+
+.money, .number {
+  text-align: right;
+}
+
 table.items tfoot tr td {
-    font-weight: bold;
-    text-align: right;
-    background-color: #f2f2f2; /* Color de fondo para el pie de la tabla */
+  font-weight: bold;
+  text-align: right;
+  background-color: #f2f2f2;
 }
 
 .terms-conditions {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f8f8f8; /* Fondo claro para destacar la sección */
-    border: 1px solid #dcdcdc; /* Borde sutil */
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  font-size: 0.9em;
+
 }
 
 .terms-conditions h2 {
-    color: #333;
-    font-size: 18px; /* Tamaño adecuado para subtítulo */
+  color: #333;
 }
 
 .terms-conditions p {
-    font-size: 14px; /* Tamaño de fuente para la legibilidad del texto */
-    color: #666; /* Color oscuro para contraste con el fondo */
-    line-height: 1.5; /* Espaciado de línea para mejorar la legibilidad */
-    margin-top: 10px;
-    text-align: justify; /* Justifica el texto para una presentación formal */
+  color: #666;
+  line-height: 1.5;
+  margin-top: 10px;
+  text-align: justify;
 }
 
-/* Sección de firmas usando Flexbox */
+
+
+
+
 .signature-section {
   display: flex;
-  justify-content: center; /* Centra los bloques horizontalmente */
-  align-items: flex-start; /* Alinea los bloques por la parte superior */
-  gap: 100px; /* Espacio entre los bloques de firma */
-  margin-top: 50px; /* Espacio superior para separar de los términos */
+  justify-content: space-around; /* Espacio igual entre los bloques */
+  margin-top: 50px;
+  padding: 0 30px;
 }
 
-/* Bloques individuales de firma */
 .signature-block {
+  width: 280px; /* Mantén el ancho fijo */
+  text-align: center; /* Centrar el texto dentro del bloque */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra el contenido dentro del bloque */
-  text-align: center; /* Centra el texto dentro de los párrafos */
+  align-items: center; /* Asegura que todo el contenido esté centrado */
 }
 
-/* Línea para la firma */
 .signature-line {
-  width: 200px; /* Ancho de la línea de firma */
+  width: 100%; /* Línea de firma ocupa todo el ancho del bloque */
   border-top: 1px solid black;
-  margin-bottom: 10px; /* Espacio debajo de la línea */
+  margin-bottom: 10px;
 }
 
-/* Opcional: Ajustar el tamaño de fuente para las etiquetas de firma */
 .signature-block p {
-  margin: 5px 0; /* Espaciado vertical entre párrafos */
+  margin: 5px 0;
+  text-align: center; /* Centrar el texto de cada párrafo */
 }
 
 
 
+/* Footer y Contact Info */
 .footer-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px; /* Ajusta según la necesidad */
-    padding: 10px; /* Añade un poco de espacio */
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 10px;
 }
 
 .address, .contact {
-    text-align: left; /* Alinea el texto a la izquierda para la dirección */
-    width: 48%; /* Ajusta el ancho para distribuir el espacio */
+  text-align: left;
+  width: 48%;
 }
 
 .contact {
-    text-align: right; /* Alinea el texto a la derecha para los contactos */
+  text-align: right;
 }
 
 .address p, .contact p {
-    margin: 5px 0; /* Espaciado vertical entre líneas */
+  margin: 5px 0;
 }
-
 
 .name {
   color: #000080;
@@ -187,85 +182,26 @@ table.items tfoot tr td {
   padding-bottom: 1em;
 }
 
-div.date-tag {
-  display: inline-block;
-  min-width: 80px;
-}
-
-div.top {
-  display: flex;
-  width: 100%;
-  padding: 0px;
-  justify-content: space-between;
-}
-
-div.summary {
-  display: flex;
-  width: 100%;
-  padding: 0px;
-  align-items: flex-end;
-}
-
-div.summary .part, div.summary .total {
-  padding: 10px;
-}
-
-div.summary .part {
-  width: 20%;
-  padding-right: 20px;
-}
-
-div.summary .total {
-  display: block;
-  flex-grow: 1;
-  background: #bcbcca;
-  font-size: 140%;
-}
-
-div.summary {
-  border-top-right-radius: 2em;
-  border-bottom-right-radius: 2em;
-}
-
-div.summary .total {
-  border-top-right-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
-}
-
-div.summary .title, div.summary .details {
-  text-align: right;
-}
-
-div.summary::after {
-  content: '';
-  display: block;
-  clear: both;
+/* Estilos adicionales para iconos y elementos */
+.phone::before, .email::before {
+  margin-right: 0.5em;
 }
 
 .phone::before {
   content: "\260e";
-  margin-right: 0.5em;
 }
 
 .email::before {
   content: "\2709";
-  margin-right: 0.5em;  
 }
 
-.thanks {
-  text-align: right;
-  color: #C83200;
-  font-size: 200%;
+
+
+.done {
+  text-decoration: line-through;
 }
 
-div.instructions, .newlined, p.note {
-  white-space: pre-line;
-}
-
-.app {
-  position: relative;
-}
-
+/* Estilos de impresión */
 @media print {
   div.print {
     display: none;
@@ -284,9 +220,7 @@ div.print a {
   font-size: 200%;
   color: white;
   text-decoration: none;
-  padding: 0.25em;
-  padding-top: 0.5em;
-  padding-right: 0.5em;
+  padding: 0.25em 0.5em 0.5em 0.5em;
   border-top-right-radius: 0.5em;
   text-transform: uppercase;
 }
@@ -295,21 +229,18 @@ div.print a:hover {
   background: #4682B4;
 }
 
-.done {
-  text-decoration: line-through;
-}
-
-div.column-name {
+/* Estilos para nombres de columna */
+.column-name, .column-recognized, .column-expected, .column-ignored {
   display: inline-block;
-}
-
-.column-name {
-  background: rgb(228, 228, 233);
   color: white;
   margin: 2px;
   padding: 2px;
   border-radius: 2px;
   font-style: normal;
+}
+
+.column-name {
+  background: rgb(228, 228, 233);
 }
 
 .column-recognized {
@@ -324,28 +255,8 @@ div.column-name {
   background: red;
 }
 
-.help {
-  padding: 1px;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  background: black;
-  color: white;
-}
-
-.help .details {
-  padding: 4px;
-}
-
-.help table {
-  border: none;
-}
-
-.help td.key {
-  text-align: right;
-}
-
-.help table {
-  padding-bottom: 3px;
+div.instructions, .newlined, p.note {
+  white-space: pre-line;
 }
 
 .help-close {
@@ -367,11 +278,6 @@ div.column-name {
   margin-left: 1em;
 }
 
-.help .title {
-  margin-left: 4px;
-  text-transform: uppercase;
-}
-
 .status {
   padding: 4px;
 }
@@ -381,12 +287,7 @@ div.column-name {
   text-decoration: none;
   color: #000080;
   background: #ddd;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  margin-top: 1px;
-  margin-bottom: 1px;
+  padding: 1px 0.5em;
+  margin: 1px 0;
   border-radius: 0.25em;
 }
-
