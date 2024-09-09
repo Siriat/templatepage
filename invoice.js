@@ -96,9 +96,10 @@ Vue.filter('asDate', function(value) {
   if (typeof(value) === 'number') {
     value = new Date(value * 1000);
   }
-  const date = moment.utc(value)
-  return date.isValid() ? date.format('MMMM DD, YYYY') : value;
+  const date = moment.utc(value);
+  return date.isValid() ? date.format('DD/MM/YYYY') : value;
 });
+
 
 function tweakUrl(url) {
   if (!url) { return url; }
@@ -151,7 +152,7 @@ function updateInvoice(row) {
     // Add some guidance about columns.
     const want = new Set(Object.keys(addDemo({})));
     const accepted = new Set(['References']);
-    const importance = ['Number', 'Client', 'Items', 'Total', 'Invoicer', 'Due', 'Issued', 'Subtotal', 'Deduction', 'Taxes', 'Note'];
+    const importance = [];
     if (!(row.Due || row.Issued)) {
       const seen = new Set(Object.keys(row).filter(k => k !== 'id' && k !== '_error_'));
       const help = row.Help = {};
@@ -192,7 +193,63 @@ function updateInvoice(row) {
     for (const key of ['Help', 'SuggestReferencesColumn', 'References']) {
       Vue.delete(data.invoice, key);
     }
+
+
+
+
+
+
+
+    ////////////////////// aqui esta mi codigo////////////
+
+    if (row.Referencia && Array.isArray(row.Referencia.items)) {
+      
+      // Variable para acumular el total
+      let totalGeneral = 0;
+      
+      // Recorremos cada item en row.Referencia.items
+      row.Referencia.items.forEach(item => {
+        
+        // Verificar si la partida existe
+        if (!item.partida || item.partida.trim() === "") {
+          throw new Error(`Error en la partida: La partida no existe en uno de los items`);
+        }
+
+        // Verificar que la cantidad sea mayor que cero
+        if (!item.cantidad || item.cantidad <= 0) {
+          throw new Error(`Error en la cantidad: El item con partida ${item.partida} tiene una cantidad inválida (debe ser mayor que cero).`);
+        }
+
+        // Sumar los totales si el total está presente
+        if (item.total) {
+          totalGeneral += item.total;
+        }
+      });
+
+      // Asignar el total sumado a row.Total
+      row.totalGeneral = totalGeneral;
+      console.log("Total sumado de los items:", totalGeneral);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // Proceso adicional del row para Grist o actualización
     data.invoice = Object.assign({}, data.invoice, row);
+
+
+
+
+
+
+
 
     // Make invoice information available for debugging.
     window.invoice = row;

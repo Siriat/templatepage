@@ -91,7 +91,7 @@
                     <td class="number">{{ item.cantidad }}</td>
                     <td>{{ item.marca }}</td>
                     <td>{{ item.product_id }}</td>
-                    <td>{{ item.producto_descripcio }} Nota: {{ item.nota }}</td>
+                    <td>{{ item.producto_descripcio }} <br> {{ item.nota }}</td>
                     <td class="money">{{ item.producto_precio2 | currency }}</td>
                     <td class="money">{{ item.total | currency }}</td>
                 </tr>
@@ -102,7 +102,7 @@
                     <td class="number">{{ invoice.Referencia.items.cantidad }}</td>
                     <td>{{ invoice.Referencia.items.marca }}</td>
                     <td>{{ invoice.Referencia.items.product_id }}</td>
-                    <td>{{ invoice.Referencia.items.producto_descripcio }} Nota: {{ invoice.Referencia.items.nota }}</td>
+                    <td>{{ invoice.Referencia.items.producto_descripcio }} <br> {{ invoice.Referencia.items.nota }}</td>
                     <td class="money">{{ invoice.Referencia.items.producto_precio2 | currency }}</td>
                     <td class="money">{{ invoice.Referencia.items.total | currency }}</td>
                 </tr>
@@ -120,7 +120,7 @@
         <tfoot>
           <tr>
             <td colspan="6" style="text-align: right;"><strong>Total (USD)</strong></td>
-            <td class="money">{{ invoice.Referencia.total | currency }}</td>
+            <td class="money">{{ invoice.totalGeneral | currency }}</td>
           </tr>
         </tfoot>
       </table>
@@ -161,11 +161,16 @@
           <p>
               TIEMPO DE ENTREGA: (FAVOR DE SOLICITAR TIEMPO DE ENTREGA ESTIMADO SI ES REQUERIDO) de 90 a 270 días (dependiendo de equipo solicitado y sujeto a disponibilidad de fábrica) después de recibida su orden de compra y el anticipo correspondiente. PRECIOS: A los precios indicados deberá agregarse el IVA. Estos serán firmes y válidos para entrega (EXW) Ex Works. VIGENCIA: 30 días a partir de esta fecha. CONDICIONES DE PAGO: 20% con la orden de compra y 80% pago contra aviso de entrega (órdenes menores a $10,000.00 USD serán 50%/50%) del equipo y la documentación correspondiente. El pago de servicios es del 100% anticipado. El pago se podrá realizar en moneda nacional tomando como base la paridad publicada en el Diario Oficial de la Federación a la fecha de pago. Favor de leer términos y condiciones completos aquí: <a href="https://www.mathiesonelco.com/tcs">www.mathiesonelco.com/tcs</a>
           </p>
-          <p>ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p>
+          <p>ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p> 
       </section>
 
 
-
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
 <div class="signature-section">
     <div class="signature-block">
         <div class="signature-line"></div>
@@ -176,7 +181,7 @@
     <div class="signature-block">
         <div class="signature-line"></div>
         <p>EL COMPRADOR</p>
-        <p>{{ invoice.cliente.Nombre }}</p>
+        <p>{{ invoice.Referencia.cliente.empresa }}</p>
     </div>
 </div>
 
