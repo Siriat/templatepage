@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Cotizacion Mathieson ELCO</title>
-
+    
     <!-- A template for showing an invoice in a Custom Widget in Grist. -->
     <!-- Uses Vue.js, moment, and the Grist Plugin API -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/es.js"></script>
 
     <script src="invoice.js?ver=11"></script>
     <script src="exampleData.js"></script>
@@ -18,26 +17,185 @@
   </head>
   <body>
     <div id="app">
-      <section>
-        <img src="logo_mathiesonelco.png" alt="Logo Empresa" style="height: 50px;"> <!-- Ajusta el path y el estilo -->
-        <h2>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h2>
-    </section>
-    
+      <div class="status" v-if="status">
+        <template v-if="status === 'waiting'">
+          <p>Waiting for data...</p>
+          <ul>
+            <li v-bind:class="[tableConnected ? 'done' : '']">I need <b>read table</b> access.</li>
+            <li v-bind:class="[haveRows ? 'done' : '']">I need at least one row of data.</li>
+            <li v-bind:class="[rowConnected ? 'done' : '']">I need <b>Select By</b> set.</li>
+          </ul>
+          <p>Examples:</p>
+          <ul>
+            <li><a class="button" href="index.html?demo=1">A filled out invoice</a></li>
+            <li><a class="button" href="index.html?labels=1">A labelled invoice</a></li>
+          </ul>
+        </template>
+        <template v-else>
+          {{ status }}
+        </template>
+      </div>
+      <template v-if="invoice">
 
-<section>
-    <table style="width: 100%; border-collapse: collapse;">
-        <tr>
-            <td style="width: 50%;">Cotización: {{ invoice["folio"] }}</td>
-            <td style="width: 50%; text-align: right;">Fecha: {{ invoice.fecha | asDate }}</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-        </tr>
+        
+        <section>
+          <img src="logo_mathiesonelco.png" alt="Logo Empresa" style="height: 50px;"> <!-- Ajusta el path y el estilo -->
+          <h3>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h3>
+         
+         </section>
+      
+        <section>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 50%;">Cotización: {{ invoice.folio }}</td>
+                    <td style="width: 50%; text-align: right;">Fecha: {{ invoice.fecha | asDate }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Proyecto: {{ invoice.Referencia.Proyecto.nombre }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Cliente: {{ invoice.Referencia.cliente.empresa }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Contacto: {{ invoice.Referencia.cliente.contacto }}</td>
+                </tr>
+            </table>
+        </section>
+
+
+      <br>MUY SEÑORES NUESTROS:<br>
+      ATENDIENDO A SU ATENTA SOLICITUD NOS ES GRATO COTIZAR A USTEDES EL EQUIPO REQUERIDO:</p>
+
+	  
+        
+
+      
+
+
+      <table class="items">
+        <thead>
+            <tr>
+                <th>Partida</th>
+                <th>Cantidad</th>
+                <th>Marca</th>
+                <th>ID del Producto</th>
+                <th>Descripción / Nota</th>
+                <th>Precio Unitario</th>
+                <th>Total (USD)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template v-if="Array.isArray(invoice.Referencia.items)">
+                <tr v-for="(item, index) in invoice.Referencia.items" :key="index">
+                    <td>{{ item.partida }}</td>
+                    <td class="number">{{ item.cantidad }}</td>
+                    <td>{{ item.marca }}</td>
+                    <td>{{ item.product_id }}</td>
+                    <td>{{ item.producto_descripcio }} Nota: {{ item.nota }}</td>
+                    <td class="money">{{ item.producto_precio2 | currency }}</td>
+                    <td class="money">{{ item.total | currency }}</td>
+                </tr>
+            </template>
+            <template v-else>
+                <tr>
+                    <td>{{ invoice.Referencia.items.partida }}</td>
+                    <td class="number">{{ invoice.Referencia.items.cantidad }}</td>
+                    <td>{{ invoice.Referencia.items.marca }}</td>
+                    <td>{{ invoice.Referencia.items.product_id }}</td>
+                    <td>{{ invoice.Referencia.items.producto_descripcio }} Nota: {{ invoice.Referencia.items.nota }}</td>
+                    <td class="money">{{ invoice.Referencia.items.producto_precio2 | currency }}</td>
+                    <td class="money">{{ invoice.Referencia.items.total | currency }}</td>
+                </tr>
+            </template>
+        </tbody>
     </table>
-  
+
+
+
+        
+
+
+      <table class="items">
+        <!-- Encabezados y filas anteriores -->
+        <tfoot>
+          <tr>
+            <td colspan="6" style="text-align: right;"><strong>Total (USD)</strong></td>
+            <td class="money">{{ invoice.Referencia.total | currency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+
+        <template v-for="help in (invoice.Help ? [invoice.Help] : [])">
+          <div class="help">
+            <div class="help-close">
+              Add <span class="column-name">Due</span> or <span class="column-name">Issued</span> date to hide this help.
+            </div>
+            <div class="title">Column information</div>
+            <div class="details">
+              <table>
+                <tr v-for="group in ['recognized', 'expected', 'ignored']">
+                  <td class="key">{{ group }}</td>
+                  <td>
+                    <template v-if="group in help">
+                      <div v-bind:class="['column-name', 'column-' + group]" v-for="col in help[group]">{{col}}</div>
+                    </template>
+                    <template v-else>
+                      &mdash;
+                    </template>
+                  </td>
+                </tr>
+              </table>
+              <template v-if="invoice.SuggestReferencesColumn">
+                <div>For structured address and item information, add a <span class="column-name">References</span> column with this formula:</div>
+                <div>
+                  <pre>RECORD(rec, expand_refs=1)</pre>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+
+      <section class="terms-conditions">
+          <h2>Términos y Condiciones</h2>
+          <p>
+              TIEMPO DE ENTREGA: (FAVOR DE SOLICITAR TIEMPO DE ENTREGA ESTIMADO SI ES REQUERIDO) de 90 a 270 días (dependiendo de equipo solicitado y sujeto a disponibilidad de fábrica) después de recibida su orden de compra y el anticipo correspondiente. PRECIOS: A los precios indicados deberá agregarse el IVA. Estos serán firmes y válidos para entrega (EXW) Ex Works. VIGENCIA: 30 días a partir de esta fecha. CONDICIONES DE PAGO: 20% con la orden de compra y 80% pago contra aviso de entrega (órdenes menores a $10,000.00 USD serán 50%/50%) del equipo y la documentación correspondiente. El pago de servicios es del 100% anticipado. El pago se podrá realizar en moneda nacional tomando como base la paridad publicada en el Diario Oficial de la Federación a la fecha de pago. Favor de leer términos y condiciones completos aquí: <a href="https://www.mathiesonelco.com/tcs">www.mathiesonelco.com/tcs</a>
+          </p>
+          <p>ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p>
+      </section>
+
+
+
+<div class="signature-section">
+    <div class="signature-block">
+        <div class="signature-line"></div>
+        <p>EL VENDEDOR</p>
+        <p>MATHIESON ELECTRONICA<br>EN COMUNICACION, SA DE CV</p>
+    </div>
+
+    <div class="signature-block">
+        <div class="signature-line"></div>
+        <p>EL COMPRADOR</p>
+        <p>{{ invoice.cliente.Nombre }}</p>
+    </div>
+</div>
+
+
+
+<div class="footer-info">
+    <div class="address">
+        <p>Geranios 76</p>
+        <p>C.P. 53240</p>
+        <p>Estado de México</p>
+    </div>
+    <div class="contact">
+        <p>Teléfono: +52-55-5363-1508</p>
+        <p>Web: <a href="http://www.mathiesonelco.com">www.mathiesonelco.com</a></p>
+        <p>Email: <a href="mailto:contacto@mathiesonelco.com">contacto@mathiesonelco.com</a></p>
+    </div>
+</div>      
+
+
         <div class="print">
           <a href="javascript:window.print()">Print</a>
         </div>
