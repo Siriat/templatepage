@@ -40,7 +40,7 @@
         
         <section>
           <img src="logo_mathiesonelco.png" alt="Logo Empresa" style="height: 50px;"> <!-- Ajusta el path y el estilo -->
-          <h3>MATHIESON ELECTRÓNICA EN COMUNICACIÓN S.A. DE C.V.</h3>
+          <h3>{{ invoice.Referencia.Empresa_Base.nombre }}</h3>
          
          </section>
       
@@ -92,8 +92,8 @@
                     <td>{{ item.marca }}</td>
                     <td>{{ item.product_id }}</td>
                     <td>{{ item.producto_descripcio }} <br> {{ item.descripcion_detalle }} <br> {{ item.nota }}</td>
-                    <td class="money">{{ item.producto_precio2 | currency }}</td>
-                    <td class="money">{{ item.total | currency }}</td>
+                    <td class="money left-aligned">{{ item.producto_precio2 | currency }}</td> 
+                    <td class="money left-aligned">{{ item.total | currency }}</td>
                 </tr>
             </template>
             <template v-else>
@@ -130,7 +130,9 @@
       <section class="terms-conditions">
         <h2>Términos y Condiciones</h2>
         <p>
-            TIEMPO DE ENTREGA: (FAVOR DE SOLICITAR TIEMPO DE ENTREGA ESTIMADO SI ES REQUERIDO) de 90 a 270 días (dependiendo de equipo solicitado y sujeto a disponibilidad de fábrica) después de recibida su orden de compra y el anticipo correspondiente. PRECIOS: A los precios indicados deberá agregarse el IVA. Estos serán firmes y válidos para entrega (EXW) Ex Works. VIGENCIA: 30 días a partir de esta fecha. CONDICIONES DE PAGO: 20% con la orden de compra y 80% pago contra aviso de entrega (órdenes menores a $10,000.00 USD serán 50%/50%) del equipo y la documentación correspondiente. El pago de servicios es del 100% anticipado. El pago se podrá realizar en moneda nacional tomando como base la paridad publicada en el Diario Oficial de la Federación a la fecha de pago. Favor de leer términos y condiciones completos aquí: <a href="https://www.mathiesonelco.com/tcs">www.mathiesonelco.com/tcs</a>
+          {{ invoice.Referencia.Empresa_Base.terminos_y_condiciones }} <a v-bind:href="'https://' + invoice.Referencia.Empresa_Base.web + '/tcs'">  {{ invoice.Referencia.Empresa_Base.web + '/tcs' }}
+          </a>
+          
         </p>
         <p>ACEPTO Y ESTOY DE ACUERDO CON LO ANTERIOR.</p> 
         <br>
@@ -141,7 +143,7 @@
             <div class="signature-block">
                 <div class="signature-line"></div>
                 <p>EL VENDEDOR</p>
-                <p>MATHIESON ELECTRONICA EN COMUNICACION, SA DE CV</p>
+                <p>{{ invoice.Referencia.Empresa_Base.nombre }}</p>
             </div>
     
             <div class="signature-block">
@@ -159,14 +161,14 @@
 
 <div class="footer-info">
     <div class="address">
-        <p>Geranios 76</p>
-        <p>C.P. 53240</p>
-        <p>Estado de México</p>
+        <p> {{ invoice.Referencia.Empresa_Base.calle }}</p>
+        <p>{{ invoice.Referencia.Empresa_Base.CP }}</p>
+        <p>{{ invoice.Referencia.Empresa_Base.estado }}</p>
     </div>
     <div class="contact">
-        <p>Teléfono: +52-55-5363-1508</p>
-        <p>Web: <a href="http://www.mathiesonelco.com">www.mathiesonelco.com</a></p>
-        <p>Email: <a href="mailto:contacto@mathiesonelco.com">contacto@mathiesonelco.com</a></p>
+        <p>Teléfono: {{ invoice.Referencia.Empresa_Base.telefono }}</p>
+        <p>Web: <a v-bind:href="'https://'+invoice.Referencia.Empresa_Base.web">{{ invoice.Referencia.Empresa_Base.web }}</a></p>
+        <p>Email: <a v-bind:href="'mailto:'+ invoice.Referencia.Empresa_Base.email">{{ invoice.Referencia.Empresa_Base.email }}</a></p>
     </div>
 </div>      
 
