@@ -1,96 +1,95 @@
 const exampleData = {
   "id": 2,
-  "folio": "XX-201",
-  "cliente": "Empresa Genérica S.A.",
-  "fecha": "2024-08-01T00:00:00.000Z",
+  "Folio": "XX-201",
+  "Cliente": "Empresa Genérica S.A.",
+  "Fecha": "2024-08-01T00:00:00.000Z",
   "Referencia": {
     "Empresa_Base": {
       "CP": "C.P. 00000",
-      "calle": "Calle Principal 123",
-      "email": "info@empresagenerica.com",
-      "estado": "Estado Ficticio",
+      "Calle": "Calle Principal 123",
+      "Email": "info@empresagenerica.com",
+      "Estado": "Estado Ficticio",
       "id": 1,
-      "logo": "https://img.freepik.com/vector-gratis/vector-degradado-logotipo-colorido-pajaro_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1726099200&semt=ais_hybrid",
-      "nombre": "Empresa Genérica S.A. de C.V.",
-      "saludo": "Estimado cliente:\nNos complace presentarle nuestra cotización.",
-      "telefono": "+52-55-0000-0000",
-      "terminos_y_condiciones": "TIEMPO DE ENTREGA: Favor de solicitar tiempo de entrega estimado si es requerido. PRECIOS: Sujetos a cambios según políticas de la empresa. Favor de leer términos y condiciones completos en nuestro sitio web.",
-      "web": "www.empresagenerica.com"
+      "Logo": "https://img.freepik.com/vector-gratis/vector-degradado-logotipo-colorido-pajaro_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1726099200&semt=ais_hybrid",
+      "Nombre": "Empresa Genérica S.A. de C.V.",
+      "Saludo": "Estimado cliente:\nNos complace presentarle nuestra cotización.",
+      "Telefono": "+52-55-0000-0000",
+      "Terminos_Y_Condiciones": "TIEMPO DE ENTREGA: Favor de solicitar tiempo de entrega estimado si es requerido. PRECIOS: Sujetos a cambios según políticas de la empresa. Favor de leer términos y condiciones completos en nuestro sitio web.",
+      "Web": "www.empresagenerica.com"
     },
     "Proyecto": {
-      "cliente_final": "cliente_generico",
-      "ejecutivo": "nombre_ejecutivo",
+      "Cliente_Final": "cliente_generico",
+      "Ejecutivo": "nombre_ejecutivo",
       "id": 1,
-      "nombre": "proyecto_x",
-      "ubicacion": "ciudad_ficticia"
+      "Nombre": "proyecto_x",
+      "Ubicacion": "ciudad_ficticia"
     },
-    "autorizada": "aprobado",
-    "cliente": {
-      "correo": "contacto@empresagenerica.com",
-      "domicilio": "1234 Calle Falsa",
-      "empresa": "Empresa Genérica S.A.",
+    "Autorizada": "aprobado",
+    "Cliente": {
+      "Correo": "contacto@empresagenerica.com",
+      "Domicilio": "1234 Calle Falsa",
+      "Empresa": "Empresa Genérica S.A.",
       "id": 4,
-      "rfc": "RFC000000XXX",
-      "telefono": "55-0000-0000"
+      "RFC": "RFC000000XXX",
+      "Telefono": "55-0000-0000"
     },
-    "contacto": {
-      "correo": "juan@empresagenerica.com",
-      "empresa": {
+    "Contacto": {
+      "Correo": "juan@empresagenerica.com",
+      "Empresa": {
         "tableId": "Clientes",
         "rowId": 4
       },
       "id": 2,
-      "nombre": "Juan Pérez",
-      "telefono": "343-000-1212"
+      "Nombre": "Juan Pérez",
+      "Telefono": "343-000-1212"
     },
-    "estatus": "en proceso",
-    "fecha": "2024-08-01T00:00:00.000Z",
-    "fecha_caducidad": "2024-09-01T00:00:00.000Z",
-    "folio": "XX-201",
+    "Estatus": "en proceso",
+    "Fecha": "2024-08-01T00:00:00.000Z",
+    "Folio": "XX-201",
     "id": 2,
-    "items": [
+    "Items": [
       {
-        "ajuste": 0,
-        "cantidad": 1,
-        "coti": {
+        "Ajuste": 0,
+        "Cantidad": 1,
+        "Coti": {
           "tableId": "Cotizacion2",
           "rowId": 0
         },
-        "descripcion_detalle": "Descripción del ítem aquí",
-        "estatus_cotizacion": "en proceso",
+        "Descripcion_Detalle": "Descripción del ítem aquí",
+        "Estatus_Cotizacion": "en proceso",
         "id": 1,
-        "marca": "Marca Ficticia",
-        "me_cotizacion": {
+        "Marca": "Marca Ficticia",
+        "Me_Cotizacion": {
           "tableId": "Cotizacion2",
           "rowId": 2
         },
-        "nota": "nota adicional aquí",
-        "notas": "",
-        "partida": "001",
-        "precio_serv": 10000,
-        "product_id": "400-000",
-        "producto": {
+        "Nota": "nota adicional aquí",
+        "Notas": "",
+        "Partida": "001",
+        "Precio_Servicio": 10000,
+        "Producto_Id": "400-000",
+        "Producto": {
           "tableId": "Producto",
           "rowId": 797
         },
-        "producto_descripcio": "Descripción extensa del producto aquí",
-        "producto_precio2": 5000,
-        "total": 5000
+        "Producto_Descripcion": "Descripción extensa del producto aquí",
+        "Producto_Precio": 5000,
+        "Total": 5000
       }
     ],
-    "multiplicador": 1
+    "Multiplicador": 1
   },
-  "items": {
-    "tableId": "Items_cotizacion",
+  "Items": {
+    "tableId": "Items_Cotizacion",
     "rowIds": [
       1
     ]
   },
   "Proyecto": "Proyecto Genérico",
   "fecha_caducidad": "2024-09-01T00:00:00.000Z",
-  "autorizada": "aprobado",
-  "contacto": "Juan Pérez",
-  "multiplicador": 1,
-  "estatus": "en proceso",
+  "Autorizada": "aprobado",
+  "Contacto": "Juan Pérez",
+  "Multiplicador": 1,
+  "Estatus": "en proceso",
   "Empresa_Base": "Empresa Genérica S.A. de C.V."
 }

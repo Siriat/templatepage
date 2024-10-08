@@ -40,24 +40,24 @@
         
         <section>
           <img v-bind:src="invoice.Referencia.Empresa_Base.logo" alt="Logo Empresa" style="height: 80px;">
-          <h3>{{ invoice.Referencia.Empresa_Base.nombre }}</h3>
+          <h3>{{ invoice.Referencia.Empresa_Base.Nombre }}</h3>
          
          </section>
       
         <section>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                    <td style="width: 50%;">Cotización: {{ invoice.folio }}</td>
-                    <td style="width: 50%; text-align: right;">Fecha: {{ invoice.fecha | asDate }}</td>
+                    <td style="width: 50%;">Cotización: {{ invoice.Folio }}</td>
+                    <td style="width: 50%; text-align: right;">Fecha: {{ invoice.Fecha | asDate }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Proyecto: {{ invoice.Referencia.Proyecto.nombre }}</td>
+                    <td colspan="2">Proyecto: {{ invoice.Referencia.Proyecto.Nombre }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Cliente: {{ invoice.Referencia.cliente.empresa }}</td>
+                    <td colspan="2">Cliente: {{ invoice.Referencia.Cliente.Empresa }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Contacto: {{ invoice.Referencia.contacto.nombre }}</td>
+                    <td colspan="2">Contacto: {{ invoice.Referencia.Contacto.Nombre }}</td>
                 </tr>
             </table>
         </section>
@@ -85,26 +85,26 @@
             </tr>
         </thead>
         <tbody>
-            <template v-if="Array.isArray(invoice.Referencia.items)">
-                <tr v-for="(item, index) in invoice.Referencia.items" :key="index">
-                    <td>{{ item.partida }}</td>
-                    <td class="number">{{ item.cantidad }}</td>
-                    <td>{{ item.marca }}</td>
-                    <td>{{ item.product_id }}</td>
-                    <td>{{ item.producto_descripcio }} <br> {{ item.descripcion_detalle }} <br> {{ item.nota }}</td>
-                    <td class="money left-aligned">{{ item.producto_precio2 | currency }}</td> 
-                    <td class="money left-aligned">{{ item.total | currency }}</td>
+            <template v-if="Array.isArray(invoice.Referencia.Items)">
+                <tr v-for="(item, index) in invoice.Referencia.Items" :key="index">
+                    <td>{{ item.Partida }}</td>
+                    <td class="number">{{ item.Cantidad }}</td>
+                    <td>{{ item.Marca }}</td>
+                    <td>{{ item.Product_Id }}</td>
+                    <td>{{ item.Producto_Descripcion }} <br> {{ item.Descripcion_Detalle }} <br> {{ item.Nota }}</td>
+                    <td class="money left-aligned">{{ item.Producto_Precio | currency }}</td> 
+                    <td class="money left-aligned">{{ item.Total | currency }}</td>
                 </tr>
             </template>
             <template v-else>
                 <tr>
-                    <td>{{ invoice.Referencia.items.partida }}</td>
-                    <td class="number">{{ invoice.Referencia.items.cantidad }}</td>
-                    <td>{{ invoice.Referencia.items.marca }}</td>
-                    <td>{{ invoice.Referencia.items.product_id }}</td>
-                    <td>{{ invoice.Referencia.items.producto_descripcio }} <br> {{ invoice.Referencia.items.nota }}</td>
-                    <td class="money">{{ invoice.Referencia.items.producto_precio2 | currency }}</td>
-                    <td class="money">{{ invoice.Referencia.items.total | currency }}</td>
+                    <td>{{ invoice.Referencia.Items.Partida }}</td>
+                    <td class="number">{{ invoice.Referencia.Items.Cantidad }}</td>
+                    <td>{{ invoice.Referencia.Items.Marca }}</td>
+                    <td>{{ invoice.Referencia.Items.Product_Id }}</td>
+                    <td>{{ invoice.Referencia.Items.Producto_Descripcion }} <br> {{ invoice.Referencia.Items.Nota }}</td>
+                    <td class="money">{{ invoice.Referencia.Items.Producto_Precio | currency }}</td>
+                    <td class="money">{{ invoice.Referencia.Items.Total | currency }}</td>
                 </tr>
             </template>
         </tbody>
@@ -120,7 +120,7 @@
         <tfoot>
           <tr>
             <td colspan="6" style="text-align: right;"><strong>Total (USD)</strong></td>
-            <td class="money">{{ invoice.totalGeneral | currency }}</td>
+            <td class="money">{{ invoice.TotalGeneral | currency }}</td>
           </tr>
         </tfoot>
       </table>
@@ -130,7 +130,7 @@
       <section class="terms-conditions">
         <h2>Términos y Condiciones</h2>
         <p>
-          {{ invoice.Referencia.Empresa_Base.terminos_y_condiciones }} <a v-bind:href="'https://' + invoice.Referencia.Empresa_Base.web + '/tcs'">  {{ invoice.Referencia.Empresa_Base.web + '/tcs' }}
+          {{ invoice.Referencia.Empresa_Base.Terminos_Y_Condiciones }} <a v-bind:href="'https://' + invoice.Referencia.Empresa_Base.Web + '/tcs'">  {{ invoice.Referencia.Empresa_Base.Web + '/tcs' }}
           </a>
           
         </p>
@@ -143,13 +143,13 @@
             <div class="signature-block">
                 <div class="signature-line"></div>
                 <p>EL VENDEDOR</p>
-                <p>{{ invoice.Referencia.Empresa_Base.nombre }}</p>
+                <p>{{ invoice.Referencia.Empresa_Base.Nombre }}</p>
             </div>
     
             <div class="signature-block">
                 <div class="signature-line"></div>
                 <p>EL COMPRADOR</p>
-                <p>{{ invoice.Referencia.cliente.empresa }}</p>
+                <p>{{ invoice.Referencia.Cliente.Empresa }}</p>
             </div>
         </div>
     </section>
@@ -161,14 +161,14 @@
 
 <div class="footer-info">
     <div class="address">
-        <p> {{ invoice.Referencia.Empresa_Base.calle }}</p>
+        <p> {{ invoice.Referencia.Empresa_Base.Calle }}</p>
         <p>{{ invoice.Referencia.Empresa_Base.CP }}</p>
-        <p>{{ invoice.Referencia.Empresa_Base.estado }}</p>
+        <p>{{ invoice.Referencia.Empresa_Base.Estado }}</p>
     </div>
     <div class="contact">
-        <p>Teléfono: {{ invoice.Referencia.Empresa_Base.telefono }}</p>
-        <p>Web: <a v-bind:href="'https://'+invoice.Referencia.Empresa_Base.web">{{ invoice.Referencia.Empresa_Base.web }}</a></p>
-        <p>Email: <a v-bind:href="'mailto:'+ invoice.Referencia.Empresa_Base.email">{{ invoice.Referencia.Empresa_Base.email }}</a></p>
+        <p>Teléfono: {{ invoice.Referencia.Empresa_Base.Telefono }}</p>
+        <p>Web: <a v-bind:href="'https://'+invoice.Referencia.Empresa_Base.Web">{{ invoice.Referencia.Empresa_Base.Web }}</a></p>
+        <p>Email: <a v-bind:href="'mailto:'+ invoice.Referencia.Empresa_Base.Email">{{ invoice.Referencia.Empresa_Base.Email }}</a></p>
     </div>
 </div>      
 
