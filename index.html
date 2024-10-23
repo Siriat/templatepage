@@ -39,7 +39,8 @@
 
         
         <section>
-          <img v-bind:src="invoice.Referencia.Empresa_Base.logo" alt="Logo Empresa" style="height: 80px;">
+        <!--  <img v-bind:src="invoice.Referencia.Empresa_Base.logo" alt="Logo Empresa" style="height: 80px;">  -->
+		  <img v-bind:src="logo.png" alt="Logo Empresa" style="height: 80px;">
           <h3>{{ invoice.Referencia.Empresa_Base.Nombre }}</h3>
          
          </section>
@@ -120,7 +121,7 @@
         <tfoot>
           <tr>
             <td colspan="6" style="text-align: right;"><strong>Total (USD)</strong></td>
-            <td class="money">{{ invoice.TotalGeneral | currency }}</td>
+            <td class="money">{{ invoice.totalGeneral | currency }}</td>
           </tr>
         </tfoot>
       </table>
